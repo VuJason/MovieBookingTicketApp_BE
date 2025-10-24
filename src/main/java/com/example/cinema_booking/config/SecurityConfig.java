@@ -52,7 +52,7 @@ public class SecurityConfig {
                     request.requestMatchers("/api/auth/**").permitAll();
                     request.requestMatchers("/api/**").permitAll();
                     request.requestMatchers("/api/shift/**").hasAnyAuthority("MANAGER", "STAFF");
-                    request.requestMatchers("/api/movies/**").hasAuthority("MANAGER");
+                    request.requestMatchers("/api/movies/**").permitAll();
                     request.requestMatchers("/v3/api-docs/**").permitAll();
                     request.requestMatchers("/api/manager/**").hasRole("MANAGER");
                     request.anyRequest().authenticated();
