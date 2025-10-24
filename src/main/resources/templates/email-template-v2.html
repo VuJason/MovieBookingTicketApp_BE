@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4; line-height: 1.6;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 20px 0;">
+  <tr>
+    <td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+
+        <!-- Header -->
+        <tr>
+          <td style="background-color: #2c3e50; padding: 40px 30px; text-align: center;">
+            <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: bold;">
+              ✓ XÁC NHẬN ĐẶT VÉ
+            </h1>
+            <p style="color: #ecf0f1; margin: 10px 0 0 0; font-size: 16px;">
+              Đặt vé thành công
+            </p>
+          </td>
+        </tr>
+
+        <!-- Booking Code -->
+        <tr>
+          <td style="padding: 30px; background-color: #ecf0f1; border-bottom: 3px solid #3498db;">
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tr>
+                <td style="text-align: center;">
+                  <p style="margin: 0; font-size: 14px; color: #7f8c8d; font-weight: bold;">MÃ ĐẶT VÉ</p>
+                  <h2 style="margin: 5px 0 0 0; font-size: 24px; color: #2c3e50; font-weight: bold; letter-spacing: 2px;">
+                    BOOKING-{{BOOKING_ID}}
+                  </h2>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Movie Info -->
+        <tr>
+          <td style="padding: 30px;">
+            <h3 style="margin: 0 0 20px 0; color: #2c3e50; font-size: 18px; border-bottom: 2px solid #3498db; padding-bottom: 8px;">
+              THÔNG TIN PHIM
+            </h3>
+
+            <table width="100%" cellpadding="8" cellspacing="0" style="margin-bottom: 30px;">
+              <tr>
+                <td width="120" style="font-weight: bold; color: #34495e; vertical-align: top;">Tên phim:</td>
+                <td style="color: #2c3e50;">{{MOVIE_NAME}}</td>
+              </tr>
+              <tr>
+                <td style="font-weight: bold; color: #34495e; vertical-align: top;">Suất chiếu:</td>
+                <td style="color: #2c3e50;">{{SHOWTIME}}</td>
+              </tr>
+              <tr>
+                <td style="font-weight: bold; color: #34495e; vertical-align: top;">Phòng chiếu:</td>
+                <td style="color: #2c3e50;">Phòng {{ROOM_NUMBER}}</td>
+              </tr>
+            </table>
+
+            <!-- Order Table -->
+            <h3 style="margin: 0 0 15px 0; color: #2c3e50; font-size: 18px; border-bottom: 2px solid #3498db; padding-bottom: 8px;">
+              CHI TIẾT ĐƠN HÀNG
+            </h3>
+
+            <table width="100%" cellpadding="12" cellspacing="0" style="border: 1px solid #bdc3c7; border-collapse: collapse;">
+              <thead>
+              <tr style="background-color: #34495e;">
+                <th style="color: #ffffff; text-align: center; border: 1px solid #2c3e50; font-size: 14px; font-weight: bold;">STT</th>
+                <th style="color: #ffffff; text-align: left; border: 1px solid #2c3e50; font-size: 14px; font-weight: bold;">MẶT HÀNG</th>
+                <th style="color: #ffffff; text-align: center; border: 1px solid #2c3e50; font-size: 14px; font-weight: bold;">SL</th>
+                <th style="color: #ffffff; text-align: right; border: 1px solid #2c3e50; font-size: 14px; font-weight: bold;">ĐƠN GIÁ</th>
+                <th style="color: #ffffff; text-align: right; border: 1px solid #2c3e50; font-size: 14px; font-weight: bold;">THÀNH TIỀN</th>
+              </tr>
+              </thead>
+              <tbody>
+              {{ORDER_ITEMS}}
+              <tr style="background-color: #ecf0f1; font-weight: bold;">
+                <td colspan="4" style="text-align: right; border: 1px solid #bdc3c7; color: #2c3e50; font-size: 16px;">
+                  TỔNG TIỀN (VND):
+                </td>
+                <td style="text-align: right; border: 1px solid #bdc3c7; color: #e74c3c; font-size: 18px; font-weight: bold;">
+                  {{TOTAL_AMOUNT}}
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td style="background-color: #ecf0f1; padding: 30px; text-align: center; border-top: 1px solid #bdc3c7;">
+            <p style="margin: 0 0 15px 0; color: #2c3e50; font-size: 16px; font-weight: bold;">
+              Cảm ơn quý khách đã sử dụng dịch vụ!
+            </p>
+            <p style="margin: 0 0 15px 0; color: #7f8c8d; font-size: 14px;">
+              Vui lòng đến rạp trước giờ chiếu 15 phút để làm thủ tục vào phòng.
+            </p>
+            <p style="margin: 0; color: #95a5a6; font-size: 12px;">
+              © 2024 Cinema System - Hệ thống rạp chiếu phim
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

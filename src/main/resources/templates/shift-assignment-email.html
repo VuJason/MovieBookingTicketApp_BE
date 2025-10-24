@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Thông báo phân ca làm việc</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .header {
+        background-color: #2196f3;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        border-radius: 5px 5px 0 0;
+      }
+      .content {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 0 0 5px 5px;
+      }
+      .shift-info {
+        background-color: white;
+        padding: 15px;
+        margin: 15px 0;
+        border-left: 4px solid #2196f3;
+        border-radius: 3px;
+      }
+      .footer {
+        text-align: center;
+        margin-top: 20px;
+        color: #666;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>🎬 Thông báo phân ca làm việc</h1>
+    </div>
+
+    <div class="content">
+      <p>Xin chào <strong>{{staffName}}</strong>,</p>
+
+      <p>Bạn đã được phân ca làm việc với thông tin như sau:</p>
+
+      <div class="shift-info">
+        <h3>📅 Thông tin ca làm việc</h3>
+        <p><strong>Tên ca:</strong> {{shiftName}}</p>
+        <p><strong>Ngày làm việc:</strong> {{shiftDate}}</p>
+        <p><strong>Thời gian:</strong> {{startTime}} - {{endTime}}</p>
+        <p>
+          <strong>Màu sắc:</strong>
+          <span style="color: {{shiftColor}};">{{shiftColor}}</span>
+        </p>
+      </div>
+
+      <p>
+        Vui lòng đảm bảo có mặt đúng giờ và thực hiện tốt nhiệm vụ được giao.
+      </p>
+
+      <p>Nếu có bất kỳ thắc mắc nào, vui lòng liên hệ với quản lý.</p>
+
+      <p>
+        Trân trọng,<br />
+        <strong>Ban quản lý rạp chiếu phim</strong>
+      </p>
+    </div>
+
+    <div class="footer">
+      <p>Email này được gửi tự động từ hệ thống quản lý ca làm việc.</p>
+      <p>Vui lòng không trả lời email này.</p>
+    </div>
+  </body>
+</html>

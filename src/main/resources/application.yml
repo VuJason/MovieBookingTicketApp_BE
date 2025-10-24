@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: MovieTicketBookingSystem
+  datasource:
+    url: jdbc:mysql://root:cBbqGtklcdvbPcYKeMNPldBrkeBFnABY@metro.proxy.rlwy.net:27469/railway
+    username: root
+    password: cBbqGtklcdvbPcYKeMNPldBrkeBFnABY
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update # hoặc none nếu không muốn Spring tự tạo bảng
+    show-sql: true
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 92625779061-km9l55u7msnl00ot2u5leh44ifqm59ce.apps.googleusercontent.com
+            client-secret: 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
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: maitrung0104@gmail.com
+    password: xkqfvqpkyawftgce  # không có dấu cách!
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+vnpay:
+  tmnCode: 3T4ND5LJ
+  hashSecret: 0KN6XCTJZNJ5H1EQ5ED528M6NDYH74UU
+  payUrl: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+  returnUrl: http://localhost:5173/
+  ipnUrl: https://2925-2405-4803-9150-e890-5551-63e2-83d-7449.ngrok-free.app/api/vnpay/ipn
+#payos:
+#  client-id: ${CLIENT_ID}
+#  api-key: ${API_KEY}
+#  check-sum-key: ${CHECK_SUM_KEY}
+
+jwt:
+  key: +N+X+g3cRIx2DEKzpO+klBxslpL3CCYfDj5ESSnqTNhA=
