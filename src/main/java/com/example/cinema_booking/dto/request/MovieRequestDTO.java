@@ -32,14 +32,14 @@ public class MovieRequestDTO {
 
     @NotBlank(message = "Actor cannot be blank")
     private String actor;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate releaseDate;
 
     private String trailer;
     private String posterUrl;
     private Boolean isComingSoon = false;
     @Column(name = "end_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate endDate;
     private List<Integer> categoryIds;
 }
