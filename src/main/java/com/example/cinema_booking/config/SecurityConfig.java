@@ -51,10 +51,10 @@ public class SecurityConfig {
                     request.requestMatchers("/swagger-ui/**").permitAll();
                     request.requestMatchers("/api/auth/**").permitAll();
                     request.requestMatchers("/api/**").permitAll();
-                    request.requestMatchers("/api/shift/**").hasAnyAuthority("MANAGER", "STAFF");
-                    request.requestMatchers("/api/movies/**").permitAll();
+//                    request.requestMatchers("/api/shift/**").hasAnyAuthority("MANAGER", "STAFF");
+//                    request.requestMatchers("/api/movies/**").permitAll();
                     request.requestMatchers("/v3/api-docs/**").permitAll();
-                    request.requestMatchers("/api/manager/**").hasRole("MANAGER");
+//                    request.requestMatchers("/api/manager/**").hasRole("MANAGER");
                     request.anyRequest().authenticated();
                 })
 //                .oauth2Login(oauth2 -> oauth2
