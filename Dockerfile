@@ -6,6 +6,6 @@ RUN mvn clean package -Dskiptest
 #Stage
 FROM openjdk:17-jdk-slim
 WORKDIR /app
-COPY target/cinema-booking-0.0.1-SNAPSHOT.war app.war
+COPY --from=build /app/target/cinema-booking-0.0.1-SNAPSHOT.war cinema-booking.war
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/app.war"]
+ENTRYPOINT ["java", "-jar", "/cinema-booking.war"]
