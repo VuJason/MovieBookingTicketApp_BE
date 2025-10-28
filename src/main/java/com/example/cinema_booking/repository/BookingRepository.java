@@ -21,4 +21,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     // 2. Lấy danh sách booking theo user
     List<Booking> findByUserOrderByBookingTimeDesc(Account user);
+    
+    // 3. Lấy danh sách booking theo user và status
+    List<Booking> findByUserAndStatusOrderByBookingTimeDesc(Account user, String status);
 }

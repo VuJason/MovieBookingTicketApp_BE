@@ -1,0 +1,47 @@
+### Manual Confirm Booking (Khi webhook không hoạt động)
+### Sử dụng khi đã thanh toán ZaloPay nhưng booking chưa được confirm
+
+### Variables
+@baseUrl = http://localhost:8080
+@token = YOUR_JWT_TOKEN_HERE
+@bookingId = 27
+
+### ============================================
+### Confirm Booking #27 (Đã thanh toán)
+### ============================================
+PUT {{baseUrl}}/api/bookings/{{bookingId}}/confirm
+Authorization: Bearer {{token}}
+
+### Expected Response:
+# {
+#   "message": "Đã xác nhận thanh toán thành công",
+#   "bookingId": 27,
+#   "status": "SUCCESS",
+#   "confirmedAt": "2025-10-27T11:30:00"
+# }
+
+### ============================================
+### Get Booking để kiểm tra status
+### ============================================
+GET {{baseUrl}}/api/bookings/{{bookingId}}
+Authorization: Bearer {{token}}
+
+### Expected: status = "SUCCESS"
+
+### ============================================
+### Kiểm tra database
+### ============================================
+# SELECT id, status, payment_url, total_amount 
+# FROM booking 
+# WHERE id = 27;
+#
+# Expected: status = 'SUCCESS'
+
+### ============================================
+### Kiểm tra tickets
+### ============================================
+# SELECT id, status, held_until 
+# FROM ticket 
+# WHERE booking_id = 27;
+#
+# Expected: status = 'BOOKED', held_until = NULL

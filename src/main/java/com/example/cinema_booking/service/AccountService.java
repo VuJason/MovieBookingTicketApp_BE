@@ -155,7 +155,8 @@ public class AccountService {
             account.setDateOfBirth(registerRequest.getDateOfBirth());
             account.setPhone(registerRequest.getPhone());
             account.setSex(registerRequest.getSex());
-            account.setRole(registerRequest.getRole());
+            Optional<Role> role = roleRepository.findByName("CUSTOMER");
+            account.setRole(role.get());
             account = accountRepository.save(account);
             
             RegisterResponse response = new RegisterResponse();

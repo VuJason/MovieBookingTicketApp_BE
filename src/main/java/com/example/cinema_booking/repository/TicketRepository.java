@@ -1,6 +1,7 @@
 package com.example.cinema_booking.repository;
 
 
+import com.example.cinema_booking.model.Booking;
 import com.example.cinema_booking.model.Seat;
 import com.example.cinema_booking.model.Showtime;
 import com.example.cinema_booking.model.Ticket;
@@ -16,6 +17,10 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
             List<Seat> seats, Showtime showtime, List<String> statuses
     );
 
+    List<Ticket> findByStatusAndBookingIsNull(
+            String status
+    );
+
     List<Ticket> findBySeatInAndShowtimeAndStatusAndBookingIsNull(
             List<Seat> seats, Showtime showtime, String status
     );
@@ -23,6 +28,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     boolean existsBySeatAndShowtimeAndStatusIn(
             Seat seat, Showtime showtime, List<String> statuses
     );
+
 
     List<Ticket> findByStatusAndHeldUntilBeforeAndBookingIsNull(
             String status, LocalDateTime time

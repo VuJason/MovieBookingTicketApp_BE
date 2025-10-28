@@ -45,3 +45,10 @@ vnpay:
 
 jwt:
   key: +N+X+g3cRIx2DEKzpO+klBxslpL3CCYfDj5ESSnqTNhA=
+
+zalopay:
+  app-id: 2553
+  key1: PcY4iZIKFCIdgZvA6ueMcMHHUbRLYjPL
+  key2: kLtgPl8HHhfvMuDHPwKfgfsY4Ydm9eIz
+  endpoint: https://sb-openapi.zalopay.vn/v2/create
+  callback-url:  https://cb9799016ea2.ngrok-free.app/api/bookings/webhook/zalopay

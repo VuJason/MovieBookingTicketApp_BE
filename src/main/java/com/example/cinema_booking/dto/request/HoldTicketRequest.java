@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HoldTicketRequest {
-    private Integer showtimeId;
+    private int showtimeId;
     private List<Long> seatIds;
 }
 

@@ -1,0 +1,87 @@
+### Test My Bookings API
+### Lấy danh sách booking của user hiện tại (từ JWT token)
+
+### Variables
+@baseUrl = http://localhost:8080
+@token = YOUR_JWT_TOKEN_HERE
+
+### ============================================
+### 1. Get My Bookings (User hiện tại)
+### ============================================
+GET {{baseUrl}}/api/bookings/my-bookings
+Authorization: Bearer {{token}}
+
+### Expected Response (CHỈ SUCCESS + Full Showtime Data):
+# [
+#   {
+#     "id": 27,
+#     "status": "SUCCESS",
+#     "bookingTime": "2025-10-27T11:08:06",
+#     "totalAmount": 140000,
+#     "paymentUrl": "https://sbgateway.zalopay.vn/...",
+#     "showtime": {
+#       "id": 3,
+#       "startTime": "2025-10-27T19:00:00",
+#       "endTime": "2025-10-27T21:30:00",
+#       "status": "UPCOMING",
+#       "movie": {
+#         "id": 1,
+#         "name": "Avatar: The Way of Water",
+#         "description": "Jake Sully lives with his newfound family...",
+#         "duration": 192,
+#         "director": "James Cameron",
+#         "actor": "Sam Worthington, Zoe Saldana",
+#         "releaseDate": "2022-12-16",
+#         "trailer": "https://youtube.com/...",
+#         "posterUrl": "https://image.tmdb.org/..."
+#       },
+#       "room": {
+#         "id": 1,
+#         "roomNumber": "1",
+#         "type": "Standard"
+#       }
+#     },
+#     "tickets": [
+#       {
+#         "seatId": 17,
+#         "seatCode": "B5",
+#         "price": 70000
+#       },
+#       {
+#         "seatId": 18,
+#         "seatCode": "B6",
+#         "price": 70000
+#       }
+#     ],
+#     "combos": []
+#   }
+# ]
+# 
+# NOTE: 
+# - Chỉ trả về bookings có status = SUCCESS
+# - Bao gồm đầy đủ thông tin showtime, movie, room
+# - Frontend không cần gọi thêm API
+
+### ============================================
+### 2. Get User Bookings by ID (Admin only)
+### ============================================
+GET {{baseUrl}}/api/bookings/user/5
+Authorization: Bearer {{token}}
+
+### Expected: Danh sách bookings của user ID = 5
+
+### ============================================
+### 3. Get Specific Booking
+### ============================================
+GET {{baseUrl}}/api/bookings/27
+Authorization: Bearer {{token}}
+
+### Expected: Chi tiết booking ID = 27
+
+### ============================================
+### Notes:
+### ============================================
+# 1. /my-bookings: Tự động lấy userId từ JWT token
+# 2. /user/{userId}: Dành cho admin xem booking của user khác
+# 3. Bookings được sắp xếp theo thời gian mới nhất
+# 4. Bao gồm tất cả status: SUCCESS, PENDING, CANCELLED

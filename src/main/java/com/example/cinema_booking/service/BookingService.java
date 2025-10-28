@@ -15,6 +15,9 @@ public interface BookingService {
     Booking confirmBookingPayment(Long bookingId);
     Booking cancelBooking(Long bookingId);
     Booking getBookingById(Long bookingId);
+    List<Booking> getBookingsByUserId(Long userId);
     List<Booking> getMyBookings();
     boolean isBookingValidForPayment(Long bookingId);
+    Booking updateBooking(Booking booking);
+    void releaseExpiredHeldTickets();
 }

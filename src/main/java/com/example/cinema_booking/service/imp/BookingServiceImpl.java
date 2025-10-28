@@ -1,17 +1,18 @@
 package com.example.cinema_booking.service.imp;
 
 import com.example.cinema_booking.dto.ComboOrderDTO;
-
+import com.example.cinema_booking.dto.RoomDTO;
+import com.example.cinema_booking.dto.TicketDTO;
 import com.example.cinema_booking.dto.request.BookingRequestDTO;
 import com.example.cinema_booking.dto.request.HoldTicketRequest;
 import com.example.cinema_booking.model.*;
 import com.example.cinema_booking.repository.*;
-
 import com.example.cinema_booking.service.BookingService;
 import com.example.cinema_booking.service.EmailService;
 import com.example.cinema_booking.utils.EmailContentBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,7 @@ public class BookingServiceImpl implements BookingService {
     private final ShowtimeRepository showtimeRepository;
     private final SeatRepository seatRepository;
     private final TicketRepository ticketRepository;
+    private final BookingComboRepository bookingComboRepository;
     private final ComboRepository comboRepository;
     private final EmailService emailService;
 
@@ -37,9 +39,10 @@ public class BookingServiceImpl implements BookingService {
      * Tạo booking mới - CHỈ tạo booking, KHÔNG tạo PayOS link
      */
     public Booking createBooking(BookingRequestDTO dto) {
-        int accountId = (int)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // Lấy accountId từ Security Context (fix ClassCastException)
+        int accountId = com.example.cinema_booking.utils.AuthenticationUtils.getCurrentAccountId();
+        
         // Lấy user
-//        dto.getUserId().intValue()
         Account user = accountRepository.findById(accountId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -53,11 +56,11 @@ public class BookingServiceImpl implements BookingService {
             throw new RuntimeException("Some seats not found");
         }
 
-
         List<Ticket> heldTickets = ticketRepository.findBySeatInAndShowtimeAndStatusAndBookingIsNull(
                 selectedSeats, showtime, "HELD"
         );
 
+        // Kiểm tra xem ghế có bị đặt hoặc giữ bởi người khác không
         if (heldTickets.size() != selectedSeats.size()) {
             throw new RuntimeException("Một số ghế chưa được giữ hợp lệ hoặc đã bị người khác giữ/đặt");
         }
@@ -123,7 +126,7 @@ public class BookingServiceImpl implements BookingService {
      */
     public List<Ticket> holdTickets(HoldTicketRequest request) {
         // Lấy suất chiếu
-        Showtime showtime = showtimeRepository.findById(request.getShowtimeId().intValue())
+        Showtime showtime = showtimeRepository.findById(request.getShowtimeId())
                 .orElseThrow(() -> new RuntimeException("Showtime not found"));
 
         // Lấy danh sách ghế
@@ -151,7 +154,7 @@ public class BookingServiceImpl implements BookingService {
             ticket.setSeat(seat);
             ticket.setShowtime(showtime);
             ticket.setStatus("HELD");
-            ticket.setHeldUntil(LocalDateTime.now().plusMinutes(1));
+            ticket.setHeldUntil(LocalDateTime.now().plusMinutes(10));
             ticket.setPrice(getTicketPrice(seat));
 
             heldTickets.add(ticket);
@@ -227,7 +230,6 @@ public class BookingServiceImpl implements BookingService {
 
         // Cập nhật trạng thái booking
         booking.setStatus("SUCCESS");
-
         // Chuyển tất cả tickets từ HELD sang BOOKED
         for (Ticket ticket : booking.getTickets()) {
             ticket.setStatus("BOOKED");
@@ -235,6 +237,16 @@ public class BookingServiceImpl implements BookingService {
         }
 
         Booking savedBooking = bookingRepository.save(booking);
+
+        List<Ticket> expiredHeldTickets = ticketRepository.findByStatusAndBookingIsNull(
+                "HELD"
+        );
+        if (!expiredHeldTickets.isEmpty()) {
+            ticketRepository.deleteAll(expiredHeldTickets);
+            System.out.println("Auto-released " + expiredHeldTickets.size() + " expired held tickets");
+        }
+
+
 
         // Gửi email xác nhận sau khi thanh toán thành công
         try {
@@ -262,6 +274,7 @@ public class BookingServiceImpl implements BookingService {
                 return false;
             }
 
+            // Kiểm tra thời gian hết hạn (10 phút)
             if (booking.getBookingTime().isBefore(LocalDateTime.now().minusMinutes(10))) {
                 return false;
             }
@@ -312,15 +325,33 @@ public class BookingServiceImpl implements BookingService {
     /**
      * Lấy tất cả booking của user
      */
-    public List<Booking> getMyBookings() {
-        int accountId = (int) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        Account user = accountRepository.findById(accountId)
+    public List<Booking> getBookingsByUserId(Long userId) {
+        Account user = accountRepository.findById(userId.intValue())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         return bookingRepository.findByUserOrderByBookingTimeDesc(user);
     }
 
+    /**
+     * Lấy tất cả booking SUCCESS của user hiện tại (từ Security Context)
+     */
+    public List<Booking> getMyBookings() {
+        // Lấy accountId từ Security Context
+        int accountId = com.example.cinema_booking.utils.AuthenticationUtils.getCurrentAccountId();
+
+        Account user = accountRepository.findById(accountId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Chỉ lấy bookings có status SUCCESS
+        return bookingRepository.findByUserAndStatusOrderByBookingTimeDesc(user, "SUCCESS");
+    }
+
+    /**
+     * Cập nhật booking
+     */
+    public Booking updateBooking(Booking booking) {
+        return bookingRepository.save(booking);
+    }
 
     /**
      * Tính giá vé theo loại ghế (có thể mở rộng)
@@ -328,7 +359,4 @@ public class BookingServiceImpl implements BookingService {
     private double getTicketPrice(Seat seat) {
         return 70000.0;
     }
-
-
-
 }

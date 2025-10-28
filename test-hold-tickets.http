@@ -1,0 +1,120 @@
+### Test Hold Tickets API
+### Giữ ghế tạm thời trước khi tạo booking
+
+### Variables
+@baseUrl = http://localhost:8080
+@token = YOUR_JWT_TOKEN_HERE
+@showtimeId = 3
+
+### ============================================
+### 1. Hold Tickets (Giữ ghế tạm thời)
+### ============================================
+POST {{baseUrl}}/api/bookings/hold
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "showtimeId": {{showtimeId}},
+  "seatIds": [17, 18]
+}
+
+### Expected Response:
+# {
+#   "tickets": [
+#     {
+#       "seatId": 17,
+#       "seatCode": "B5",
+#       "price": 70000
+#     },
+#     {
+#       "seatId": 18,
+#       "seatCode": "B6",
+#       "price": 70000
+#     }
+#   ],
+#   "heldUntil": "2025-10-27T12:10:00",
+#   "message": "Tickets held successfully"
+# }
+
+### ============================================
+### 2. Tạo Booking với ghế đã hold
+### ============================================
+POST {{baseUrl}}/api/bookings
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "showtimeId": {{showtimeId}},
+  "seatIds": [17, 18]
+}
+
+### Expected: Booking created successfully
+
+### ============================================
+### 3. Cancel Held Tickets (Nếu không muốn booking)
+### ============================================
+DELETE {{baseUrl}}/api/bookings/hold
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "showtimeId": {{showtimeId}},
+  "seatIds": [17, 18]
+}
+
+### Expected Response:
+# {
+#   "message": "Held tickets cancelled successfully",
+#   "releasedSeats": 2
+# }
+
+### ============================================
+### 4. Test Error: Hold ghế đã được đặt
+### ============================================
+POST {{baseUrl}}/api/bookings/hold
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "showtimeId": {{showtimeId}},
+  "seatIds": [1, 2]
+}
+
+### Expected: Error "Seat is already held or booked"
+
+### ============================================
+### 5. Test Error: Showtime không tồn tại
+### ============================================
+POST {{baseUrl}}/api/bookings/hold
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "showtimeId": 999,
+  "seatIds": [17, 18]
+}
+
+### Expected: Error "Showtime not found"
+
+### ============================================
+### 6. Test Error: Seat không tồn tại
+### ============================================
+POST {{baseUrl}}/api/bookings/hold
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "showtimeId": {{showtimeId}},
+  "seatIds": [999, 1000]
+}
+
+### Expected: Error "Một số ghế không tồn tại"
+
+### ============================================
+### Notes:
+### ============================================
+# 1. Hold tickets có thời hạn 10 phút
+# 2. Sau 10 phút, tickets tự động được release
+# 3. Có thể cancel held tickets bất cứ lúc nào
+# 4. Hold tickets KHÔNG tạo booking
+# 5. Phải tạo booking sau khi hold để hoàn tất
