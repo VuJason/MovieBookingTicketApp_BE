@@ -137,5 +137,5 @@ Backend (API): http://localhost:8080/api
 | `PUT`   | `/api/bookings/{bookingId}/cancel`            | Cancel a booking                                                         | User/Admin  |
 | `GET`   | `/api/bookings/{bookingId}`                   | Get booking details by ID                                                | User/Admin  |
 | `GET`   | `/api/bookings/history/{userId}`              | Get all booking history of a user                                        | User/Admin  |
-## 🎥 Demo Video
+
 
