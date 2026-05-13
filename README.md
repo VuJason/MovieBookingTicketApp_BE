@@ -139,4 +139,3 @@ Backend (API): http://localhost:8080/api
 | `GET`   | `/api/bookings/history/{userId}`              | Get all booking history of a user                                        | User/Admin  |
 ## 🎥 Demo Video
 
-[Click to watch demo](https://www.youtube.com/watch?v=6tk5f3PGRzU)
