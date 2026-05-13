@@ -1,7 +1,7 @@
 
 # Online Sales Ticket
 
-A full-stack web application that allows users to browse events or movie screenings, select seats in real-time, and purchase tickets through secure online payments.
+A full-stack web application and mobile that allows users to browse events or movie screenings, select seats in real-time, and purchase tickets through secure online payments.
 The system includes both user and admin roles, supports JWT-based authentication, and integrates PayOS for seamless payment processing. Admins can manage movies, showtimes, theaters, orders, and monitor sales performance through a centralized dashboard.
 
 ## Key Features
@@ -15,7 +15,7 @@ Admins can create, update, and delete movies, events, showtimes, and screening r
 Users can view showtimes, select available seats in real-time, and book tickets
 
 ### Payment Integration
-Secure online payments via PayOS or VNPay
+Secure online payments via ZaloPay
 
 ### Email Notifications
 Automatic booking confirmation emails sent to users
@@ -130,7 +130,7 @@ Backend (API): http://localhost:8080/api
 |---------|-----------------------------------------------|--------------------------------------------------------------------------|-------------|
 | `POST`  | `/api/bookings`                               | Create a new booking                                                     | User        |
 | `POST`  | `/api/bookings/{bookingId}/payment-link`      | Generate PayOS payment link for the booking                              | User        |
-| `POST`  | `/api/bookings/webhook/payos`                 | PayOS payment webhook callback                                           | PayOS       |
+| `POST`  | `/api/bookings/webhook/payos`                 | Zalopay payment webhook callback                                         | Zalopay     |
 | `POST`  | `/api/bookings/hold`                          | Temporarily hold seats before payment                                    | User        |
 | `DELETE`| `/api/bookings/hold`                          | Release held seats                                                       | User        |
 | `PUT`   | `/api/bookings/{bookingId}/confirm`           | Confirm a booking after successful payment                               | User/Admin  |
